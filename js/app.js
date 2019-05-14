@@ -38,10 +38,33 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+function closeCards(cardList) {
+    for (let card of cardList) {
+        card.classList.remove('open', 'show');
+        console.log(card.classList);
+    }
+}
 
 const deck = document.querySelector('.deck');
+let openCards = [];
 deck.addEventListener('click', function(evt) {
     if (evt.target.nodeName === 'LI') {
-        console.log('A card was clicked: ' + evt.target.textContent);
+        if (!openCards.includes(evt.target)) {
+            evt.target.classList.add('open', 'show');
+            openCards.push(evt.target);
+            console.log(openCards);
+            if (openCards.length == 2) {
+                // setTimeout(closeCards(openCards), 1000);
+                // openCards = [];
+                setTimeout(function close() {
+                    for (let card of openCards) {
+                        card.classList.remove('open', 'show');
+                        console.log(card.classList);
+                    }
+                    openCards = [];
+                }, 1000)
+            }
+            console.log('A card was clicked: ' + evt.target.classList);
+        }
     }
 });
