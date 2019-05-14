@@ -38,13 +38,6 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-function closeCards(cardList) {
-    for (let card of cardList) {
-        card.classList.remove('open', 'show');
-        console.log(card.classList);
-    }
-}
-
 const deck = document.querySelector('.deck');
 let openCards = [];
 deck.addEventListener('click', function(evt) {
@@ -52,19 +45,20 @@ deck.addEventListener('click', function(evt) {
         if (!openCards.includes(evt.target)) {
             evt.target.classList.add('open', 'show');
             openCards.push(evt.target);
-            console.log(openCards);
             if (openCards.length == 2) {
-                // setTimeout(closeCards(openCards), 1000);
-                // openCards = [];
-                setTimeout(function close() {
-                    for (let card of openCards) {
-                        card.classList.remove('open', 'show');
-                        console.log(card.classList);
-                    }
-                    openCards = [];
-                }, 1000)
+                let card0 = openCards[0];
+                let card1 = openCards[1];
+                if (card0.querySelector('i').classList.item(1) == card1.querySelector('i').classList.item(1)) {
+                    card0.classList.add('match');
+                    card1.classList.add('match');
+                } else {
+                    setTimeout(function close() {
+                        card0.classList.remove('open', 'show');
+                        card1.classList.remove('open', 'show');
+                    }, 1000)
+                }
+                openCards = [];
             }
-            console.log('A card was clicked: ' + evt.target.classList);
         }
     }
 });
