@@ -40,9 +40,11 @@ function shuffle(array) {
 
 const deck = document.querySelector('.deck');
 let openCards = [];
+let matchedCards = [];
 deck.addEventListener('click', function(evt) {
     if (evt.target.nodeName === 'LI') {
-        if (!openCards.includes(evt.target)) {
+        if (!openCards.includes(evt.target) && !matchedCards.includes(evt.target)) {
+            updateMoves();
             evt.target.classList.add('open', 'show');
             openCards.push(evt.target);
             if (openCards.length == 2) {
@@ -51,14 +53,29 @@ deck.addEventListener('click', function(evt) {
                 if (card0.querySelector('i').classList.item(1) == card1.querySelector('i').classList.item(1)) {
                     card0.classList.add('match');
                     card1.classList.add('match');
+                    matchedCards.push(card0);
+                    matchedCards.push(card1);
                 } else {
                     setTimeout(function close() {
                         card0.classList.remove('open', 'show');
                         card1.classList.remove('open', 'show');
-                    }, 1000)
+                    }, 500);
                 }
                 openCards = [];
             }
+            checkAll(matchedCards);
         }
     }
 });
+
+function updateMoves() {
+    const moves = document.querySelector('.moves');
+    let num = parseInt(moves.innerText, 10) + 1;
+    moves.textContent = num;
+}
+
+function checkAll(matchedCards) {
+    if (matchedCards.length === 16) {
+        setTimeout(window.confirm("you rock!!"), 500);
+    }
+}
