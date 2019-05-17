@@ -1,7 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let listCards = document.querySelectorAll('.card');
+let newListcards = [];
+for (card of listCards) {
+    newListcards.push(card);
+}
 
 /*
  * Display the cards on the page
@@ -25,6 +29,28 @@ function shuffle(array) {
 
     return array;
 }
+
+
+
+function startNewGame() {
+    newListCards = shuffle(newListcards);
+    const newDeck = document.createDocumentFragment()
+
+    for (card of newListcards) {
+        newDeck.appendChild(card);
+    }
+
+    let deck = document.querySelector('.deck');
+
+    while (deck.hasChildNodes()) {
+        deck.removeChild(deck.firstChild);
+    }
+
+    deck.appendChild(newDeck);
+}
+
+startNewGame();
+
 
 
 /*
@@ -55,6 +81,7 @@ deck.addEventListener('click', function(evt) {
                     card1.classList.add('match');
                     matchedCards.push(card0);
                     matchedCards.push(card1);
+                    checkAll(matchedCards);
                 } else {
                     setTimeout(function close() {
                         card0.classList.remove('open', 'show');
@@ -63,7 +90,6 @@ deck.addEventListener('click', function(evt) {
                 }
                 openCards = [];
             }
-            checkAll(matchedCards);
         }
     }
 });
@@ -76,6 +102,8 @@ function updateMoves() {
 
 function checkAll(matchedCards) {
     if (matchedCards.length === 16) {
-        setTimeout(window.confirm("you rock!!"), 500);
+        setTimeout(function on() {
+            alert('you rock');
+        }, 10)
     }
 }
