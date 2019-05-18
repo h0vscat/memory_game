@@ -1,11 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
-let listCards = document.querySelectorAll('.card');
-let newListcards = [];
-for (card of listCards) {
-    newListcards.push(card);
-}
+let listCards = Array.from(document.querySelectorAll('.card'));
+// for (card of listCards) {
+//     newListcards.push(card);
+// }
 
 /*
  * Display the cards on the page
@@ -29,29 +28,6 @@ function shuffle(array) {
 
     return array;
 }
-
-
-
-function startNewGame() {
-    newListCards = shuffle(newListcards);
-    const newDeck = document.createDocumentFragment()
-
-    for (card of newListcards) {
-        newDeck.appendChild(card);
-    }
-
-    let deck = document.querySelector('.deck');
-
-    while (deck.hasChildNodes()) {
-        deck.removeChild(deck.firstChild);
-    }
-
-    deck.appendChild(newDeck);
-}
-
-startNewGame();
-
-
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -79,6 +55,8 @@ deck.addEventListener('click', function(evt) {
                 if (card0.querySelector('i').classList.item(1) == card1.querySelector('i').classList.item(1)) {
                     card0.classList.add('match');
                     card1.classList.add('match');
+                    card0.classList.remove('open', 'show');
+                    card1.classList.remove('open', 'show');
                     matchedCards.push(card0);
                     matchedCards.push(card1);
                     checkAll(matchedCards);
@@ -94,10 +72,26 @@ deck.addEventListener('click', function(evt) {
     }
 });
 
-function updateMoves() {
+function closeOpenCards(openCards) {
+    for (card of openCards) {
+        card.classList.remove('open', 'show');
+    }
+}
+
+function closeMatchedCards(matchedCards) {
+    for (card of matchedCards) {
+        card.classList.remove('match');
+    }
+}
+
+function updateMoves(num) {
     const moves = document.querySelector('.moves');
-    let num = parseInt(moves.innerText, 10) + 1;
-    moves.textContent = num;
+    if (num === 0) {
+        moves.textContent = num;
+    } else {
+        let num = parseInt(moves.innerText, 10) + 1;
+        moves.textContent = num;
+    }
 }
 
 function checkAll(matchedCards) {
@@ -107,3 +101,33 @@ function checkAll(matchedCards) {
         }, 10)
     }
 }
+
+function startNewGame() {
+    closeOpenCards(openCards);
+    openCards = [];
+
+    closeMatchedCards(matchedCards);
+    matchedCards = [];
+
+    updateMoves(0);
+
+    let shuffledCards = shuffle(listCards);
+    const newDeck = document.createDocumentFragment()
+
+    for (card of shuffledCards) {
+        newDeck.appendChild(card);
+    }
+
+    let deck = document.querySelector('.deck');
+
+    while (deck.hasChildNodes()) {
+        deck.removeChild(deck.firstChild);
+    }
+
+    deck.appendChild(newDeck);
+}
+
+startNewGame();
+
+const restart = document.querySelector('.restart');
+restart.addEventListener('click', startNewGame);
