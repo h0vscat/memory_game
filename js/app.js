@@ -43,8 +43,16 @@ function shuffle(array) {
 const deck = document.querySelector('.deck');
 let openCards = [];
 let matchedCards = [];
+let myTimer;
+let initial;
+let timer = document.querySelector('.timer');
 deck.addEventListener('click', function(evt) {
     if (evt.target.nodeName === 'LI') {
+        // add timer
+        if (myTimer === undefined) {
+            initial = new Date().getTime();
+            myTimer = setInterval(getNewTime, 1000);
+        }
         if (!openCards.includes(evt.target) && !matchedCards.includes(evt.target)) {
             updateMoves();
             evt.target.classList.add('open', 'show');
@@ -103,6 +111,10 @@ function checkAll(matchedCards) {
 }
 
 function startNewGame() {
+    clearInterval(myTimer);
+    myTimer = undefined;
+    timer.innerText = `00:00`;
+
     closeOpenCards(openCards);
     openCards = [];
 
@@ -127,7 +139,20 @@ function startNewGame() {
     deck.appendChild(newDeck);
 }
 
-startNewGame();
-
 const restart = document.querySelector('.restart');
 restart.addEventListener('click', startNewGame);
+
+
+function getNewTime() {
+    let now = new Date().getTime();
+    let dis = now - initial;
+    let minutes = Math.floor((dis % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((dis % (1000 * 60)) / 1000);
+    if (seconds < 10) {
+        seconds = `0${seconds}`
+    }
+    if (minutes < 10) {
+        minutes = `0${minutes}`
+    }
+    timer.innerText = `${minutes}:${seconds}`;
+}
