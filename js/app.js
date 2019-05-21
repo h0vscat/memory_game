@@ -72,7 +72,7 @@ deck.addEventListener('click', function(evt) {
                     setTimeout(function close() {
                         card0.classList.remove('open', 'show');
                         card1.classList.remove('open', 'show');
-                    }, 500);
+                    }, 400);
                 }
                 openCards = [];
             }
@@ -115,6 +115,8 @@ function startNewGame() {
     myTimer = undefined;
     timer.innerText = `00:00`;
 
+    recoverStars();
+
     closeOpenCards(openCards);
     openCards = [];
 
@@ -142,12 +144,20 @@ function startNewGame() {
 const restart = document.querySelector('.restart');
 restart.addEventListener('click', startNewGame);
 
+let stars = document.querySelectorAll('.fa-star');
+let numStar = stars.length;
 
 function getNewTime() {
     let now = new Date().getTime();
     let dis = now - initial;
     let minutes = Math.floor((dis % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((dis % (1000 * 60)) / 1000);
+
+    // star
+    if (seconds % 20 === 0 && numStar > 1) {
+        numStar -= 1;
+        stars[numStar].classList.replace('fa-star', 'fa-star-o');
+    }
     if (seconds < 10) {
         seconds = `0${seconds}`
     }
@@ -155,4 +165,10 @@ function getNewTime() {
         minutes = `0${minutes}`
     }
     timer.innerText = `${minutes}:${seconds}`;
+}
+
+function recoverStars() {
+    for (star of stars) {
+        star.classList.replace('fa-star-o', 'fa-star');
+    }
 }
