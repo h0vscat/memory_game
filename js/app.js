@@ -2,9 +2,6 @@
  * Create a list that holds all of your cards
  */
 let listCards = Array.from(document.querySelectorAll('.card'));
-// for (card of listCards) {
-//     newListcards.push(card);
-// }
 
 /*
  * Display the cards on the page
@@ -92,25 +89,31 @@ function closeMatchedCards(matchedCards) {
     }
 }
 
+const moves = document.querySelector('.moves');
+let numMoves = 0;
+
 function updateMoves(num) {
-    const moves = document.querySelector('.moves');
     if (num === 0) {
         moves.textContent = num;
     } else {
-        let num = parseInt(moves.innerText, 10) + 1;
-        moves.textContent = num;
+        numMoves += 1;
+        moves.textContent = numMoves;
     }
+
 }
 
 function checkAll(matchedCards) {
     if (matchedCards.length === 16) {
         setTimeout(function on() {
-            alert('you rock');
+            show();
         }, 10)
+        clearInterval(myTimer);
     }
 }
 
 function startNewGame() {
+    close();
+
     clearInterval(myTimer);
     myTimer = undefined;
     timer.innerText = `00:00`;
@@ -146,6 +149,7 @@ restart.addEventListener('click', startNewGame);
 
 let stars = document.querySelectorAll('.fa-star');
 let numStar = stars.length;
+let time;
 
 function getNewTime() {
     let now = new Date().getTime();
@@ -164,7 +168,8 @@ function getNewTime() {
     if (minutes < 10) {
         minutes = `0${minutes}`
     }
-    timer.innerText = `${minutes}:${seconds}`;
+    time = `${minutes}:${seconds}`
+    timer.innerText = time;
 }
 
 function recoverStars() {
@@ -172,4 +177,41 @@ function recoverStars() {
     for (star of stars) {
         star.classList.replace('fa-star-o', 'fa-star');
     }
+}
+
+//winning page
+function show() {
+    document.querySelector('.winning-page').style.display = 'block';
+    addStars();
+    getStats();
+}
+
+function close() {
+    document.querySelector('.winning-page').style.display = 'none';
+}
+
+let finalStars = document.querySelector('.final-stars');
+
+function addStars() {
+    let offStars = stars.length - numStar;
+
+    for (let i = 0; i < numStar; i++) {
+        const newElement = document.createElement('i');
+        newElement.classList.add('fa', 'fa-star');
+
+        finalStars.appendChild(newElement);
+    }
+
+    for (let i = 0; i < offStars; i++) {
+        const newElement = document.createElement('i');
+        newElement.classList.add('fa', 'fa-star-o');
+
+        finalStars.appendChild(newElement);
+    }
+}
+
+let stats = document.querySelector('.stats');
+
+function getStats() {
+    stats.textContent = `You finished the game in ${time} with ${numMoves} moves`;
 }
