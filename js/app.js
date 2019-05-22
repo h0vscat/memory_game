@@ -94,6 +94,7 @@ let numMoves = 0;
 
 function updateMoves(num) {
     if (num === 0) {
+        numMoves = 0;
         moves.textContent = num;
     } else {
         numMoves += 1;
@@ -112,22 +113,27 @@ function checkAll(matchedCards) {
 }
 
 function startNewGame() {
+    // close winning page
     close();
 
+    //reset timer
     clearInterval(myTimer);
     myTimer = undefined;
     timer.innerText = `00:00`;
 
+    //reset stars
     recoverStars();
 
+    //reset cards
     closeOpenCards(openCards);
     openCards = [];
-
     closeMatchedCards(matchedCards);
     matchedCards = [];
 
+    //reset moves
     updateMoves(0);
 
+    //shuffle cards
     let shuffledCards = shuffle(listCards);
     const newDeck = document.createDocumentFragment()
 
