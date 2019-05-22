@@ -168,6 +168,7 @@ function getNewTime() {
 }
 
 function recoverStars() {
+    numStar = stars.length;
     for (star of stars) {
         star.classList.replace('fa-star-o', 'fa-star');
     }
