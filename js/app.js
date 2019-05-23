@@ -133,6 +133,11 @@ function startNewGame() {
     //reset moves
     updateMoves(0);
 
+    //reset final stars
+    while (finalStars.hasChildNodes()) {
+        finalStars.removeChild(finalStars.firstChild);
+    }
+
     //shuffle cards
     let shuffledCards = shuffle(listCards);
     const newDeck = document.createDocumentFragment()
