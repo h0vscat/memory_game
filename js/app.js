@@ -155,6 +155,7 @@ function startNewGame() {
     deck.appendChild(newDeck);
 }
 
+//timer
 const restart = document.querySelector('.restart');
 restart.addEventListener('click', startNewGame);
 
@@ -201,6 +202,7 @@ function close() {
     document.querySelector('.winning-page').style.display = 'none';
 }
 
+//append star elements to the winning page
 let finalStars = document.querySelector('.final-stars');
 
 function addStars() {
@@ -221,6 +223,7 @@ function addStars() {
     }
 }
 
+//winning massage
 let stats = document.querySelector('.stats');
 
 function getStats() {
