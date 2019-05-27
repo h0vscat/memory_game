@@ -95,10 +95,10 @@ let numMoves = 0;
 function updateMoves(num) {
     if (num === 0) {
         numMoves = 0;
-        moves.textContent = num;
+        moves.textContent = `${num} Moves`;
     } else {
         numMoves += 1;
-        moves.textContent = numMoves;
+        moves.textContent = `${numMoves} Moves`;
     }
 
 }
@@ -169,7 +169,7 @@ function getNewTime() {
     let seconds = Math.floor((dis % (1000 * 60)) / 1000);
 
     // star
-    if (seconds % 20 === 0 && numStar > 1) {
+    if (seconds % 15 === 0 && numStar > 1) {
         numStar -= 1;
         stars[numStar].classList.replace('fa-star', 'fa-star-o');
     }
@@ -226,3 +226,5 @@ let stats = document.querySelector('.stats');
 function getStats() {
     stats.textContent = `You finished the game in ${time} with ${numMoves} moves`;
 }
+
+startNewGame();
