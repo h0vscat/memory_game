@@ -50,6 +50,7 @@ deck.addEventListener('click', function(evt) {
             initial = new Date().getTime();
             myTimer = setInterval(getNewTime, 1000);
         }
+        //check if cards are already opened or matched
         if (!openCards.includes(evt.target) && !matchedCards.includes(evt.target)) {
             updateMoves();
             evt.target.classList.add('open', 'show');
